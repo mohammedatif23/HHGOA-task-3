@@ -5,83 +5,83 @@
     "results": [
         {
             "rank": 1,
-            "platform": "Instagram",
-            "title": "No more asking for API keys get unlimited api keys for free ...",
-            "url": "https://www.instagram.com/reel/DU6INC6jHY3/",
-            "source": "Instagram",
-            "lens_position": 1,
-            "lens_exact_match": false,
-            "candidate_image": null,
-            "verification": {
-                "status": "IMAGE_DOWNLOAD_FAILED",
-                "faces_detected": 0,
-                "distance": null,
-                "match": false,
-                "confidence": "NO MATCH"
-            },
-            "score": 0.0
-        },
-        {
-            "rank": 2,
-            "platform": "Facebook",
-            "title": "Pranav Pathak (@pranavpathak404) \u2022 Facebook",
-            "url": "https://www.facebook.com/pranavpathak404/",
-            "source": "Facebook",
-            "lens_position": 2,
-            "lens_exact_match": false,
-            "candidate_image": null,
-            "verification": {
-                "status": "IMAGE_DOWNLOAD_FAILED",
-                "faces_detected": 0,
-                "distance": null,
-                "match": false,
-                "confidence": "NO MATCH"
-            },
-            "score": 0.0
-        },
-        {
-            "rank": 3,
-            "platform": "Instagram",
-            "title": "Follow @parthhhq #height #looksmaxxing #fitness #motivation ...",
-            "url": "https://www.instagram.com/reel/Dbp3SrPsFdY/",
-            "source": "Instagram",
-            "lens_position": 3,
-            "lens_exact_match": false,
-            "candidate_image": null,
-            "verification": {
-                "status": "IMAGE_DOWNLOAD_FAILED",
-                "faces_detected": 0,
-                "distance": null,
-                "match": false,
-                "confidence": "NO MATCH"
-            },
-            "score": 0.0
-        },
-        {
-            "rank": 4,
             "platform": "Reddit",
-            "title": "15 M, Need the realest advice there : r/malegrooming",
-            "url": "https://www.reddit.com/r/malegrooming/comments/1j1ijww/15_m_need_the_realest_advice_there/",
+            "title": "What's the one thing you hope we get in Dexter Resurrection ...",
+            "url": "https://www.reddit.com/r/Dexter/comments/1jgeuur/whats_the_one_thing_you_hope_we_get_in_dexter/",
             "source": "Reddit",
-            "lens_position": 4,
+            "lens_position": 5,
             "lens_exact_match": false,
-            "candidate_image": "verification/downloaded\\candidate_4.jpg",
+            "candidate_image": "verification/downloaded\\candidate_1.jpg",
             "verification": {
                 "status": "CHECKED",
                 "faces_detected": 1,
-                "distance": 0.6449352450678719,
+                "distance": 0.15555756352344458,
+                "match": true,
+                "confidence": "HIGH"
+            },
+            "score": 0.6689
+        },
+        {
+            "rank": 2,
+            "platform": "YouTube",
+            "title": "Michael C. Hall Previews 'Dexter: New Blood' | TVLine ...",
+            "url": "https://www.youtube.com/watch?v=L7gG8iu1U1Y",
+            "source": "YouTube",
+            "lens_position": 8,
+            "lens_exact_match": false,
+            "candidate_image": "verification/downloaded\\candidate_2.jpg",
+            "verification": {
+                "status": "CHECKED",
+                "faces_detected": 2,
+                "distance": 0.1472973850561501,
+                "match": true,
+                "confidence": "HIGH"
+            },
+            "score": 0.6705
+        },
+        {
+            "rank": 3,
+            "platform": "YouTube",
+            "title": "Forget Dexter! Michael C. Hall's Best Role Is... - YouTube",
+            "url": "https://www.youtube.com/watch?v=lTcz1Ild5z4",
+            "source": "YouTube",
+            "lens_position": 14,
+            "lens_exact_match": false,
+            "candidate_image": "verification/downloaded\\candidate_3.jpg",
+            "verification": {
+                "status": "CHECKED",
+                "faces_detected": 1,
+                "distance": 0.13450737067822283,
+                "match": true,
+                "confidence": "HIGH"
+            },
+            "score": 0.6731
+        },
+        {
+            "rank": 4,
+            "platform": "Facebook",
+            "title": "The cast of DEXTER: RESURRECTION includes Michael C. Hall ...",
+            "url": "https://www.facebook.com/consequence/posts/the-cast-of-dexter-resurrection-includes-michael-c-hall-peter-dinklage-eric-ston/1078479410986496/",
+            "source": "Facebook",
+            "lens_position": 17,
+            "lens_exact_match": false,
+            "candidate_image": null,
+            "verification": {
+                "status": "IMAGE_DOWNLOAD_FAILED",
+                "faces_detected": 0,
+                "distance": null,
                 "match": false,
                 "confidence": "NO MATCH"
             },
-            "score": 0.071
+            "score": 0.0
         },
         {
             "rank": 5,
-            "platform": "Facebook",
-            "title": "Jay Cutler - Jay Cutler added a new photo.",
-            "url": "https://www.facebook.com/JayCutler4x/photos/10154332215035276/",
-            "source": "Jay Cutler - Jay Cutler added a new photo.",
-            "lens_position": 5,
+            "platform": "Instagram",
+            "title": "\ud83d\udd2a Every twist, every turn, can challenge our sense of ...",
+            "url": "https://www.instagram.com/p/CDRlB43gbxf/",
+            "source": "Instagram",
+            "lens_position": 23,
             "lens_exact_match": false,
             "candidate_image": null,
             "verification": {
@@ -96,92 +96,92 @@
         {
             "rank": 6,
             "platform": "YouTube",
-            "title": "i just love to streamm (monkey tv + roblox + just chatting ...",
-            "url": "https://www.youtube.com/watch?v=GcQxSKAGEKY",
+            "title": "Dexter New Blood Season 3 Release Date | Trailer | Cast ...",
+            "url": "https://www.youtube.com/watch?v=plbSNf4KoJ4",
             "source": "YouTube",
-            "lens_position": 6,
+            "lens_position": 24,
             "lens_exact_match": false,
             "candidate_image": "verification/downloaded\\candidate_6.jpg",
             "verification": {
                 "status": "CHECKED",
                 "faces_detected": 1,
-                "distance": 0.6674639850245309,
-                "match": false,
-                "confidence": "NO MATCH"
+                "distance": 0.1203466229307761,
+                "match": true,
+                "confidence": "HIGH"
             },
-            "score": 0.0665
+            "score": 0.6759
         },
         {
             "rank": 7,
-            "platform": "Pinterest",
-            "title": "Blah blah | A eyes, My boy, Fine shyt",
-            "url": "https://cl.pinterest.com/pin/pins-by-you--953778027332020134/",
-            "source": "Pinterest",
-            "lens_position": 7,
+            "platform": "Instagram",
+            "title": "Dexter\u2026",
+            "url": "https://www.instagram.com/reel/DcyZwoKM8yH/",
+            "source": "Instagram",
+            "lens_position": 25,
             "lens_exact_match": false,
-            "candidate_image": "verification/downloaded\\candidate_7.jpg",
+            "candidate_image": null,
             "verification": {
-                "status": "CHECKED",
-                "faces_detected": 1,
-                "distance": 0.6995774586524754,
+                "status": "IMAGE_DOWNLOAD_FAILED",
+                "faces_detected": 0,
+                "distance": null,
                 "match": false,
                 "confidence": "NO MATCH"
             },
-            "score": 0.0601
+            "score": 0.0
         },
         {
             "rank": 8,
-            "platform": "Reddit",
-            "title": "18m : r/Rateme",
-            "url": "https://www.reddit.com/r/Rateme/comments/1vt10ut/18m/",
-            "source": "Reddit",
-            "lens_position": 10,
+            "platform": "YouTube",
+            "title": "The LAZY Way Dexter: Resurrection \u201cFixed\u201d New Blood - YouTube",
+            "url": "https://www.youtube.com/watch?v=moOqhRU5z4c",
+            "source": "YouTube",
+            "lens_position": 28,
             "lens_exact_match": false,
             "candidate_image": "verification/downloaded\\candidate_8.jpg",
             "verification": {
                 "status": "CHECKED",
                 "faces_detected": 1,
-                "distance": 0.6008916830824524,
-                "match": false,
-                "confidence": "NO MATCH"
+                "distance": 0.37071887189642594,
+                "match": true,
+                "confidence": "HIGH"
             },
-            "score": 0.0798
+            "score": 0.6259
         },
         {
             "rank": 9,
-            "platform": "YouTube",
-            "title": "WIN 20260419 17 10 58 Pro - YouTube",
-            "url": "https://www.youtube.com/watch?v=zo5zUWWFjEA",
-            "source": "YouTube",
-            "lens_position": 12,
+            "platform": "Instagram",
+            "title": "\ud83c\udfa5 Dexter Dexter follows Dexter Morgan, a brilliant forensic ...",
+            "url": "https://www.instagram.com/reel/Dcw-yJPI7Hv/",
+            "source": "Instagram",
+            "lens_position": 32,
             "lens_exact_match": false,
-            "candidate_image": "verification/downloaded\\candidate_9.jpg",
+            "candidate_image": null,
             "verification": {
-                "status": "CHECKED",
-                "faces_detected": 1,
-                "distance": 0.47522098574495086,
-                "match": true,
-                "confidence": "MEDIUM"
+                "status": "IMAGE_DOWNLOAD_FAILED",
+                "faces_detected": 0,
+                "distance": null,
+                "match": false,
+                "confidence": "NO MATCH"
             },
-            "score": 0.605
+            "score": 0.0
         },
         {
             "rank": 10,
             "platform": "YouTube",
-            "title": "Winter SMP Stream 1 part 4 - YouTube",
-            "url": "https://www.youtube.com/watch?v=XHznvnKR21M",
+            "title": "Michael C. Hall Teases Dexter's 'Appetite for DANGER' in ...",
+            "url": "https://www.youtube.com/watch?v=HF0-AJbycMw",
             "source": "YouTube",
-            "lens_position": 14,
+            "lens_position": 34,
             "lens_exact_match": false,
             "candidate_image": "verification/downloaded\\candidate_10.jpg",
             "verification": {
                 "status": "CHECKED",
                 "faces_detected": 1,
-                "distance": 0.7030343215986621,
-                "match": false,
-                "confidence": "NO MATCH"
+                "distance": 0.40080154081698294,
+                "match": true,
+                "confidence": "HIGH"
             },
-            "score": 0.0594
+            "score": 0.6198
         }
     ]
 }

@@ -1,27 +1,23 @@
 # Virtual environment
 venv/
-.venv/
 
-# Python
-__pycache__/
-*.py[cod]
-*.pyo
-
-# Environment variables / secrets
+# Environment variables / API keys
 .env
-.env.*
-!.env.example
 
-# IDE
+# Python cache
+__pycache__/
+.py[cod]
+
+# Generated candidate images
+verification/downloaded/
+
+# Backup evidence
+verification/evidence_backup.json
+
+# IDE files
 .vscode/
 .idea/
 
-# OS
+# OS files
 .DS_Store
 Thumbs.db
-
-# Temporary files
-*.log
-
-# Test images / generated files
-output/

@@ -1,7 +1,10 @@
 import os
+import json
 from urllib.parse import urlparse
 
+import requests
 import serpapi
+import face_recognition
 from dotenv import load_dotenv
 
 
@@ -15,16 +18,22 @@ API_KEY = os.getenv("SERPAPI_KEY")
 
 if not API_KEY:
     raise RuntimeError(
-        "SERPAPI_KEY not found.\n"
-        "Create a .env file in the project root and add:\n"
-        "SERPAPI_KEY=YOUR_API_KEY"
+        "SERPAPI_KEY not found in .env"
     )
 
+INPUT_IMAGE = "samples/test.JPG"
 
-IMAGE_PATH = "samples/test.JPG"
+OUTPUT_DIR = "verification/downloaded"
+
+REPORT_PATH = "verification/evidence.json"
+
+MATCH_THRESHOLD = 0.60
 
 
-# Social-media domains we want to identify
+# ============================================================
+# SOCIAL MEDIA DOMAINS
+# ============================================================
+
 SOCIAL_DOMAINS = {
     "instagram.com": "Instagram",
     "facebook.com": "Facebook",
@@ -39,18 +48,16 @@ SOCIAL_DOMAINS = {
 
 
 # ============================================================
-# HELPER: IDENTIFY SOCIAL PLATFORM
+# GET SOCIAL PLATFORM
 # ============================================================
 
 def get_social_platform(url):
-    """
-    Determine which social-media platform a URL belongs to.
-    """
 
     if not url:
         return None
 
     try:
+
         hostname = urlparse(url).hostname
 
         if not hostname:
@@ -58,17 +65,19 @@ def get_social_platform(url):
 
         hostname = hostname.lower()
 
-        # Remove www.
         if hostname.startswith("www."):
             hostname = hostname[4:]
 
         for domain, platform in SOCIAL_DOMAINS.items():
 
-            if hostname == domain or hostname.endswith("." + domain):
+            if (
+                hostname == domain
+                or hostname.endswith("." + domain)
+            ):
                 return platform
 
     except Exception:
-        return None
+        pass
 
     return None
 
@@ -79,200 +88,795 @@ def get_social_platform(url):
 
 def reverse_image_search(image_path):
 
-    print("\n" + "=" * 55)
-    print("              REVERSE IMAGE SEARCH")
-    print("=" * 55)
-
-    # --------------------------------------------------------
-    # Check image
-    # --------------------------------------------------------
+    print("\n" + "=" * 60)
+    print("              GOOGLE LENS SEARCH")
+    print("=" * 60)
 
     if not os.path.exists(image_path):
+
         raise FileNotFoundError(
-            f"\nImage not found:\n{image_path}\n\n"
-            "Make sure the image exists inside the samples folder."
+            f"Image not found: {image_path}"
         )
 
-    print("\nImage:")
-    print(f"  {image_path}")
-
-    # --------------------------------------------------------
-    # Create SerpApi client
-    # --------------------------------------------------------
-
-    print("\nConnecting to SerpApi...")
-
-    client = serpapi.Client(api_key=API_KEY)
-
-    print("✓ Connected")
-
-    # --------------------------------------------------------
-    # Upload image
-    # --------------------------------------------------------
+    client = serpapi.Client(
+        api_key=API_KEY
+    )
 
     print("\nUploading image...")
 
-    upload = client.upload_image(image_path)
+    upload = client.upload_image(
+        image_path
+    )
 
-    image_id = upload.get("image_id")
+    image_id = upload.get(
+        "image_id"
+    )
 
     if not image_id:
-        print("\nUpload response:")
-        print(upload)
 
         raise RuntimeError(
-            "Image upload failed: no image_id returned."
+            f"Image upload failed: {upload}"
         )
 
     print("✓ Image uploaded")
-    print(f"  Image ID: {image_id}")
 
-    # --------------------------------------------------------
-    # Google Lens search
-    # --------------------------------------------------------
-
-    print("\nSearching with Google Lens...")
+    print("\nSearching Google Lens...")
 
     results = client.search({
         "engine": "google_lens",
-        "image_id": image_id,
+        "image_id": image_id
     })
 
-    print("✓ Google Lens search completed")
+    print("✓ Search completed")
 
     return results
 
 
 # ============================================================
-# EXTRACT SOCIAL-MEDIA CANDIDATES
+# EXTRACT SOCIAL CANDIDATES
 # ============================================================
 
-def extract_social_candidates(results):
+def extract_candidates(results):
 
     candidates = []
 
-    # Google Lens visual matches
-    visual_matches = results.get("visual_matches", [])
+    visual_matches = results.get(
+        "visual_matches",
+        []
+    )
 
     for result in visual_matches:
 
-        link = result.get("link", "")
+        link = result.get(
+            "link",
+            ""
+        )
 
-        platform = get_social_platform(link)
+        platform = get_social_platform(
+            link
+        )
 
         if not platform:
             continue
 
         candidate = {
+
             "platform": platform,
-            "title": result.get("title", "Unknown"),
-            "link": link,
-            "source": result.get("source", ""),
-            "thumbnail": result.get("thumbnail"),
-            "image": result.get("image"),
-            "exact_match": result.get("exact_matches", False),
-            "position": result.get("position"),
+
+            "title": result.get(
+                "title",
+                "Unknown"
+            ),
+
+            "url": link,
+
+            "source": result.get(
+                "source",
+                ""
+            ),
+
+            "image_url": result.get(
+                "image",
+                ""
+            ),
+
+            "thumbnail_url": result.get(
+                "thumbnail",
+                ""
+            ),
+
+            "exact_match": bool(
+                result.get(
+                    "exact_matches",
+                    False
+                )
+            ),
+
+            "lens_position": result.get(
+                "position"
+            )
         }
 
-        candidates.append(candidate)
+        candidates.append(
+            candidate
+        )
 
     return candidates
 
 
 # ============================================================
-# PRINT ALL VISUAL MATCHES
+# DOWNLOAD CANDIDATE IMAGE
 # ============================================================
 
-def print_visual_matches(results):
+def download_candidate_image(
+    image_url,
+    output_path
+):
 
-    visual_matches = results.get("visual_matches", [])
+    if not image_url:
+        return False
 
-    print("\n" + "=" * 55)
-    print("                 VISUAL MATCHES")
-    print("=" * 55)
+    try:
 
-    print(f"\nTotal visual matches: {len(visual_matches)}")
+        response = requests.get(
+            image_url,
+            timeout=20,
+            headers={
+                "User-Agent": (
+                    "Mozilla/5.0 "
+                    "(Windows NT 10.0; Win64; x64) "
+                    "AppleWebKit/537.36 "
+                    "(KHTML, like Gecko) "
+                    "Chrome/131 Safari/537.36"
+                )
+            }
+        )
 
-    if not visual_matches:
-        print("\n❌ No visual matches returned.")
+        response.raise_for_status()
 
-        return
+        content_type = response.headers.get(
+            "Content-Type",
+            ""
+        ).lower()
 
-    for i, result in enumerate(visual_matches[:10], 1):
+        if "image" not in content_type:
 
-        title = result.get("title", "Unknown")
-        link = result.get("link", "No link")
-
-        print(f"\n--- Result {i} ---")
-
-        print(f"Title : {title}")
-        print(f"Link  : {link}")
-
-        source = result.get("source")
-
-        if source:
-            print(f"Source: {source}")
-
-        exact = result.get("exact_matches")
-
-        if exact is not None:
             print(
-                f"Exact Match: "
-                f"{'YES' if exact else 'NO'}"
+                "    ⚠ URL did not return an image"
             )
 
+            return False
 
-# ============================================================
-# PRINT SOCIAL-MEDIA CANDIDATES
-# ============================================================
+        os.makedirs(
+            os.path.dirname(output_path),
+            exist_ok=True
+        )
 
-def print_social_candidates(candidates):
+        with open(
+            output_path,
+            "wb"
+        ) as file:
 
-    print("\n" + "=" * 55)
-    print("             SOCIAL MEDIA CANDIDATES")
-    print("=" * 55)
+            file.write(
+                response.content
+            )
 
-    if not candidates:
+        return True
 
-        print("\n❌ No social-media candidates found.")
-
-        return
-
-    print(
-        f"\n✓ Found {len(candidates)} "
-        "social-media candidate(s)"
-    )
-
-    for i, candidate in enumerate(candidates, 1):
-
-        print(f"\n[{i}] {candidate['platform']}")
+    except Exception as error:
 
         print(
-            f"    Title       : "
+            f"    ⚠ Download failed: {error}"
+        )
+
+        return False
+
+
+# ============================================================
+# GET REFERENCE FACE
+# ============================================================
+
+def get_reference_encoding(
+    image_path
+):
+
+    image = face_recognition.load_image_file(
+        image_path
+    )
+
+    locations = face_recognition.face_locations(
+        image
+    )
+
+    if len(locations) != 1:
+
+        raise ValueError(
+            "Input image must contain exactly "
+            "one detectable face."
+        )
+
+    encodings = face_recognition.face_encodings(
+        image,
+        locations
+    )
+
+    if not encodings:
+
+        raise ValueError(
+            "Could not generate face encoding "
+            "for input image."
+        )
+
+    return encodings[0]
+
+
+# ============================================================
+# VERIFY CANDIDATE
+# ============================================================
+
+def verify_candidate(
+    reference_encoding,
+    candidate_path
+):
+
+    try:
+
+        image = face_recognition.load_image_file(
+            candidate_path
+        )
+
+        locations = face_recognition.face_locations(
+            image
+        )
+
+        if not locations:
+
+            return {
+                "status": "NO_FACE",
+                "faces_detected": 0,
+                "distance": None,
+                "match": False,
+                "confidence": "NO MATCH"
+            }
+
+        encodings = face_recognition.face_encodings(
+            image,
+            locations
+        )
+
+        if not encodings:
+
+            return {
+                "status": "ENCODING_FAILED",
+                "faces_detected": len(locations),
+                "distance": None,
+                "match": False,
+                "confidence": "NO MATCH"
+            }
+
+        best_distance = None
+
+        # Compare reference face against every
+        # detected face in the candidate image.
+        for encoding in encodings:
+
+            distance = face_recognition.face_distance(
+                [reference_encoding],
+                encoding
+            )[0]
+
+            distance = float(distance)
+
+            if (
+                best_distance is None
+                or distance < best_distance
+            ):
+
+                best_distance = distance
+
+        # ----------------------------------------------------
+        # Determine whether it passes the threshold
+        # ----------------------------------------------------
+
+        match = (
+            best_distance <= MATCH_THRESHOLD
+        )
+
+        # ----------------------------------------------------
+        # Confidence classification
+        # ----------------------------------------------------
+
+        if best_distance <= 0.45:
+
+            confidence = "HIGH"
+
+        elif best_distance <= 0.55:
+
+            confidence = "MEDIUM"
+
+        elif best_distance <= 0.60:
+
+            confidence = "LOW"
+
+        else:
+
+            confidence = "NO MATCH"
+
+        return {
+
+            "status": "CHECKED",
+
+            "faces_detected": len(
+                locations
+            ),
+
+            "distance": best_distance,
+
+            "match": bool(match),
+
+            "confidence": confidence
+        }
+
+    except Exception as error:
+
+        return {
+
+            "status": "ERROR",
+
+            "faces_detected": 0,
+
+            "distance": None,
+
+            "match": False,
+
+            "confidence": "NO MATCH",
+
+            "error": str(error)
+        }
+
+
+# ============================================================
+# CALCULATE CANDIDATE SCORE
+# ============================================================
+
+def calculate_score(
+    candidate,
+    verification
+):
+
+    score = 0.0
+
+    # --------------------------------------------------------
+    # Exact Lens match
+    # --------------------------------------------------------
+
+    if candidate["exact_match"]:
+
+        score += 0.30
+
+    # --------------------------------------------------------
+    # Face match
+    # --------------------------------------------------------
+
+    if verification["match"]:
+
+        score += 0.50
+
+    # --------------------------------------------------------
+    # Better face distance
+    # --------------------------------------------------------
+
+    distance = verification.get(
+        "distance"
+    )
+
+    if distance is not None:
+
+        similarity_score = max(
+            0,
+            1 - distance
+        )
+
+        score += (
+            similarity_score * 0.20
+        )
+
+    return round(
+        min(score, 1.0),
+        4
+    )
+
+
+# ============================================================
+# PROCESS CANDIDATES
+# ============================================================
+
+def process_candidates(
+    candidates,
+    reference_encoding
+):
+
+    results = []
+
+    os.makedirs(
+        OUTPUT_DIR,
+        exist_ok=True
+    )
+
+    for index, candidate in enumerate(
+        candidates[:10],
+        start=1
+    ):
+
+        print("\n" + "-" * 60)
+
+        print(
+            f"CANDIDATE {index}"
+        )
+
+        print(
+            f"Platform : "
+            f"{candidate['platform']}"
+        )
+
+        print(
+            f"Title    : "
             f"{candidate['title']}"
         )
 
         print(
-            f"    URL         : "
-            f"{candidate['link']}"
+            f"URL      : "
+            f"{candidate['url']}"
         )
 
-        if candidate["source"]:
+        # ----------------------------------------------------
+        # Prefer actual image.
+        # Fall back to thumbnail.
+        # ----------------------------------------------------
+
+        image_url = (
+            candidate["image_url"]
+            or candidate["thumbnail_url"]
+        )
+
+        candidate_file = os.path.join(
+            OUTPUT_DIR,
+            f"candidate_{index}.jpg"
+        )
+
+        print(
+            "\nDownloading candidate image..."
+        )
+
+        downloaded = download_candidate_image(
+            image_url,
+            candidate_file
+        )
+
+        verification = {
+
+            "status":
+                "IMAGE_DOWNLOAD_FAILED",
+
+            "faces_detected": 0,
+
+            "distance": None,
+
+            "match": False,
+
+            "confidence": "NO MATCH"
+        }
+
+        # ----------------------------------------------------
+        # Face verification
+        # ----------------------------------------------------
+
+        if downloaded:
+
             print(
-                f"    Source      : "
-                f"{candidate['source']}"
+                "✓ Candidate image downloaded"
+            )
+
+            print(
+                "Comparing face..."
+            )
+
+            verification = verify_candidate(
+                reference_encoding,
+                candidate_file
+            )
+
+            if verification["match"]:
+
+                print(
+                    f"✓ POTENTIAL FACE MATCH "
+                    f"({verification['confidence']} confidence)"
+                )
+
+            else:
+
+                print(
+                    f"✗ Face did not match "
+                    f"({verification['confidence']})"
+                )
+
+        else:
+
+            print(
+                "✗ Candidate image could not be downloaded"
+            )
+
+        # ----------------------------------------------------
+        # Calculate score
+        # ----------------------------------------------------
+
+        score = calculate_score(
+            candidate,
+            verification
+        )
+
+        print(
+            f"Candidate score: "
+            f"{score:.4f}"
+        )
+
+        # ----------------------------------------------------
+        # Create result
+        # ----------------------------------------------------
+
+        result = {
+
+            "rank": index,
+
+            "platform": candidate[
+                "platform"
+            ],
+
+            "title": candidate[
+                "title"
+            ],
+
+            "url": candidate[
+                "url"
+            ],
+
+            "source": candidate[
+                "source"
+            ],
+
+            "lens_position": candidate[
+                "lens_position"
+            ],
+
+            "lens_exact_match":
+                candidate[
+                    "exact_match"
+                ],
+
+            "candidate_image": (
+                candidate_file
+                if downloaded
+                else None
+            ),
+
+            "verification":
+                verification,
+
+            "score": score
+        }
+
+        results.append(
+            result
+        )
+
+    return results
+
+
+# ============================================================
+# SAVE EVIDENCE REPORT
+# ============================================================
+
+def save_evidence_report(
+    results
+):
+
+    os.makedirs(
+        os.path.dirname(REPORT_PATH),
+        exist_ok=True
+    )
+
+    report = {
+
+        "input_image":
+            INPUT_IMAGE,
+
+        "match_threshold":
+            MATCH_THRESHOLD,
+
+        "candidates_checked":
+            len(results),
+
+        "results":
+            results
+    }
+
+    with open(
+        REPORT_PATH,
+        "w",
+        encoding="utf-8"
+    ) as file:
+
+        json.dump(
+            report,
+            file,
+            indent=4
+        )
+
+    print(
+        f"\n✓ Evidence report saved:"
+    )
+
+    print(
+        f"  {REPORT_PATH}"
+    )
+
+
+# ============================================================
+# PRINT FINAL RESULTS
+# ============================================================
+
+def print_final_results(
+    results
+):
+
+    print("\n")
+
+    print("=" * 60)
+
+    print(
+        "                 FINAL RESULTS"
+    )
+
+    print("=" * 60)
+
+    if not results:
+
+        print(
+            "\n❌ No candidates available."
+        )
+
+        return
+
+    # Highest score first
+
+    results.sort(
+        key=lambda item: item["score"],
+        reverse=True
+    )
+
+    for index, result in enumerate(
+        results,
+        start=1
+    ):
+
+        verification = result[
+            "verification"
+        ]
+
+        print(
+            f"\n#{index} "
+            f"{result['platform']}"
+        )
+
+        print(
+            f"Title       : "
+            f"{result['title']}"
+        )
+
+        print(
+            f"URL         : "
+            f"{result['url']}"
+        )
+
+        print(
+            f"Lens Match  : "
+            f"{'YES' if result['lens_exact_match'] else 'NO'}"
+        )
+
+        print(
+            f"Faces       : "
+            f"{verification['faces_detected']}"
+        )
+
+        if verification[
+            "distance"
+        ] is not None:
+
+            print(
+                f"Face Distance: "
+                f"{verification['distance']:.4f}"
             )
 
         print(
-            f"    Exact Match : "
-            f"{'YES' if candidate['exact_match'] else 'NO'}"
+            f"Face Match  : "
+            f"{'YES' if verification['match'] else 'NO'}"
         )
 
-        if candidate["position"] is not None:
-            print(
-                f"    Lens Rank   : "
-                f"{candidate['position']}"
-            )
+        print(
+            f"Confidence  : "
+            f"{verification.get('confidence', 'N/A')}"
+        )
+
+        print(
+            f"Final Score : "
+            f"{result['score']:.4f}"
+        )
+
+    # --------------------------------------------------------
+    # Best candidate
+    # --------------------------------------------------------
+
+    best = results[0]
+
+    print("\n" + "=" * 60)
+
+    print(
+        "                 BEST CANDIDATE"
+    )
+
+    print("=" * 60)
+
+    print(
+        f"\nPlatform : "
+        f"{best['platform']}"
+    )
+
+    print(
+        f"Title    : "
+        f"{best['title']}"
+    )
+
+    print(
+        f"URL      : "
+        f"{best['url']}"
+    )
+
+    print(
+        f"Score    : "
+        f"{best['score']:.4f}"
+    )
+
+    best_verification = (
+        best["verification"]
+    )
+
+    print(
+        f"Face Distance : "
+        f"{best_verification.get('distance')}"
+    )
+
+    print(
+        f"Confidence    : "
+        f"{best_verification.get('confidence', 'N/A')}"
+    )
+
+    if best_verification["match"]:
+
+        print(
+            "\n✓ POTENTIAL MATCH FOUND"
+        )
+
+        print(
+            f"  Confidence: "
+            f"{best_verification.get('confidence')}"
+        )
+
+    else:
+
+        print(
+            "\n⚠ No verified face match "
+            "among the candidates."
+        )
 
 
 # ============================================================
@@ -281,87 +885,98 @@ def print_social_candidates(candidates):
 
 if __name__ == "__main__":
 
-    try:
+    print("\n")
 
-        # ----------------------------------------------------
-        # Run reverse-image search
-        # ----------------------------------------------------
+    print("=" * 60)
 
-        results = reverse_image_search(IMAGE_PATH)
+    print(
+        "       HH GOA TASK 3 - END-TO-END SEARCH"
+    )
 
-        # ----------------------------------------------------
-        # Show result sections
-        # ----------------------------------------------------
+    print("=" * 60)
 
-        print("\n" + "=" * 55)
-        print("             RESULT INFORMATION")
-        print("=" * 55)
+    # --------------------------------------------------------
+    # Step 1: Load reference face
+    # --------------------------------------------------------
 
-        print("\nAvailable result sections:")
+    print(
+        "\n[1/4] Loading input face..."
+    )
 
-        for key in results.keys():
-            print(f"  • {key}")
-
-        # ----------------------------------------------------
-        # Print visual matches
-        # ----------------------------------------------------
-
-        print_visual_matches(results)
-
-        # ----------------------------------------------------
-        # Extract social-media candidates
-        # ----------------------------------------------------
-
-        candidates = extract_social_candidates(results)
-
-        # ----------------------------------------------------
-        # Print social candidates
-        # ----------------------------------------------------
-
-        print_social_candidates(candidates)
-
-        # ----------------------------------------------------
-        # Summary
-        # ----------------------------------------------------
-
-        print("\n" + "=" * 55)
-        print("                    SUMMARY")
-        print("=" * 55)
-
-        print(
-            f"\nVisual matches : "
-            f"{len(results.get('visual_matches', []))}"
+    reference_encoding = (
+        get_reference_encoding(
+            INPUT_IMAGE
         )
+    )
 
-        print(
-            f"Social candidates : "
-            f"{len(candidates)}"
-        )
+    print(
+        "✓ Face encoding generated"
+    )
 
-        if candidates:
+    # --------------------------------------------------------
+    # Step 2: Reverse search
+    # --------------------------------------------------------
 
-            print(
-                "\n✓ Reverse-image search successfully "
-                "returned social-media candidates."
-            )
+    print(
+        "\n[2/4] Running reverse-image search..."
+    )
 
-        else:
+    lens_results = reverse_image_search(
+        INPUT_IMAGE
+    )
 
-            print(
-                "\n⚠ No social-media candidates were found "
-                "in the returned visual matches."
-            )
+    # --------------------------------------------------------
+    # Step 3: Extract candidates
+    # --------------------------------------------------------
 
-        print("\n" + "=" * 55)
+    print(
+        "\n[3/4] Extracting social-media candidates..."
+    )
 
-    except Exception as error:
+    candidates = extract_candidates(
+        lens_results
+    )
 
-        print("\n" + "=" * 55)
-        print("                    ERROR")
-        print("=" * 55)
+    print(
+        f"✓ {len(candidates)} "
+        "social-media candidate(s) found"
+    )
 
-        print(f"\n{type(error).__name__}: {error}")
+    # --------------------------------------------------------
+    # Step 4: Verify candidates
+    # --------------------------------------------------------
 
-        print("\n" + "=" * 55)
+    print(
+        "\n[4/4] Verifying candidates..."
+    )
 
-        raise
+    verified_results = process_candidates(
+        candidates,
+        reference_encoding
+    )
+
+    # --------------------------------------------------------
+    # Save evidence
+    # --------------------------------------------------------
+
+    save_evidence_report(
+        verified_results
+    )
+
+    # --------------------------------------------------------
+    # Final output
+    # --------------------------------------------------------
+
+    print_final_results(
+        verified_results
+    )
+
+    print("\n")
+
+    print("=" * 60)
+
+    print(
+        "                PIPELINE COMPLETE"
+    )
+
+    print("=" * 60)

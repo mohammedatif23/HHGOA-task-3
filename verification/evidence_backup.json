@@ -1,0 +1,187 @@
+{
+    "input_image": "samples/test.JPG",
+    "match_threshold": 0.61,
+    "candidates_checked": 10,
+    "results": [
+        {
+            "rank": 1,
+            "platform": "Instagram",
+            "title": "No more asking for API keys get unlimited api keys for free ...",
+            "url": "https://www.instagram.com/reel/DU6INC6jHY3/",
+            "source": "Instagram",
+            "lens_position": 1,
+            "lens_exact_match": false,
+            "candidate_image": null,
+            "verification": {
+                "status": "IMAGE_DOWNLOAD_FAILED",
+                "faces_detected": 0,
+                "distance": null,
+                "match": false,
+                "confidence": "NO MATCH"
+            },
+            "score": 0.0
+        },
+        {
+            "rank": 2,
+            "platform": "Facebook",
+            "title": "Pranav Pathak (@pranavpathak404) \u2022 Facebook",
+            "url": "https://www.facebook.com/pranavpathak404/",
+            "source": "Facebook",
+            "lens_position": 2,
+            "lens_exact_match": false,
+            "candidate_image": null,
+            "verification": {
+                "status": "IMAGE_DOWNLOAD_FAILED",
+                "faces_detected": 0,
+                "distance": null,
+                "match": false,
+                "confidence": "NO MATCH"
+            },
+            "score": 0.0
+        },
+        {
+            "rank": 3,
+            "platform": "Instagram",
+            "title": "Follow @parthhhq #height #looksmaxxing #fitness #motivation ...",
+            "url": "https://www.instagram.com/reel/Dbp3SrPsFdY/",
+            "source": "Instagram",
+            "lens_position": 3,
+            "lens_exact_match": false,
+            "candidate_image": null,
+            "verification": {
+                "status": "IMAGE_DOWNLOAD_FAILED",
+                "faces_detected": 0,
+                "distance": null,
+                "match": false,
+                "confidence": "NO MATCH"
+            },
+            "score": 0.0
+        },
+        {
+            "rank": 4,
+            "platform": "Reddit",
+            "title": "15 M, Need the realest advice there : r/malegrooming",
+            "url": "https://www.reddit.com/r/malegrooming/comments/1j1ijww/15_m_need_the_realest_advice_there/",
+            "source": "Reddit",
+            "lens_position": 4,
+            "lens_exact_match": false,
+            "candidate_image": "verification/downloaded\\candidate_4.jpg",
+            "verification": {
+                "status": "CHECKED",
+                "faces_detected": 1,
+                "distance": 0.6449352450678719,
+                "match": false,
+                "confidence": "NO MATCH"
+            },
+            "score": 0.071
+        },
+        {
+            "rank": 5,
+            "platform": "Facebook",
+            "title": "Jay Cutler - Jay Cutler added a new photo.",
+            "url": "https://www.facebook.com/JayCutler4x/photos/10154332215035276/",
+            "source": "Jay Cutler - Jay Cutler added a new photo.",
+            "lens_position": 5,
+            "lens_exact_match": false,
+            "candidate_image": null,
+            "verification": {
+                "status": "IMAGE_DOWNLOAD_FAILED",
+                "faces_detected": 0,
+                "distance": null,
+                "match": false,
+                "confidence": "NO MATCH"
+            },
+            "score": 0.0
+        },
+        {
+            "rank": 6,
+            "platform": "YouTube",
+            "title": "i just love to streamm (monkey tv + roblox + just chatting ...",
+            "url": "https://www.youtube.com/watch?v=GcQxSKAGEKY",
+            "source": "YouTube",
+            "lens_position": 6,
+            "lens_exact_match": false,
+            "candidate_image": "verification/downloaded\\candidate_6.jpg",
+            "verification": {
+                "status": "CHECKED",
+                "faces_detected": 1,
+                "distance": 0.6674639850245309,
+                "match": false,
+                "confidence": "NO MATCH"
+            },
+            "score": 0.0665
+        },
+        {
+            "rank": 7,
+            "platform": "Pinterest",
+            "title": "Blah blah | A eyes, My boy, Fine shyt",
+            "url": "https://cl.pinterest.com/pin/pins-by-you--953778027332020134/",
+            "source": "Pinterest",
+            "lens_position": 7,
+            "lens_exact_match": false,
+            "candidate_image": "verification/downloaded\\candidate_7.jpg",
+            "verification": {
+                "status": "CHECKED",
+                "faces_detected": 1,
+                "distance": 0.6995774586524754,
+                "match": false,
+                "confidence": "NO MATCH"
+            },
+            "score": 0.0601
+        },
+        {
+            "rank": 8,
+            "platform": "Reddit",
+            "title": "18m : r/Rateme",
+            "url": "https://www.reddit.com/r/Rateme/comments/1vt10ut/18m/",
+            "source": "Reddit",
+            "lens_position": 10,
+            "lens_exact_match": false,
+            "candidate_image": "verification/downloaded\\candidate_8.jpg",
+            "verification": {
+                "status": "CHECKED",
+                "faces_detected": 1,
+                "distance": 0.6008916830824524,
+                "match": false,
+                "confidence": "NO MATCH"
+            },
+            "score": 0.0798
+        },
+        {
+            "rank": 9,
+            "platform": "YouTube",
+            "title": "WIN 20260419 17 10 58 Pro - YouTube",
+            "url": "https://www.youtube.com/watch?v=zo5zUWWFjEA",
+            "source": "YouTube",
+            "lens_position": 12,
+            "lens_exact_match": false,
+            "candidate_image": "verification/downloaded\\candidate_9.jpg",
+            "verification": {
+                "status": "CHECKED",
+                "faces_detected": 1,
+                "distance": 0.47522098574495086,
+                "match": true,
+                "confidence": "MEDIUM"
+            },
+            "score": 0.605
+        },
+        {
+            "rank": 10,
+            "platform": "YouTube",
+            "title": "Winter SMP Stream 1 part 4 - YouTube",
+            "url": "https://www.youtube.com/watch?v=XHznvnKR21M",
+            "source": "YouTube",
+            "lens_position": 14,
+            "lens_exact_match": false,
+            "candidate_image": "verification/downloaded\\candidate_10.jpg",
+            "verification": {
+                "status": "CHECKED",
+                "faces_detected": 1,
+                "distance": 0.7030343215986621,
+                "match": false,
+                "confidence": "NO MATCH"
+            },
+            "score": 0.0594
+        }
+    ]
+}

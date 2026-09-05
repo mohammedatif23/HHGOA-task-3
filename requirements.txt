@@ -4,4 +4,4 @@ Pillow
 numpy
 requests
 python-dotenv
-serpapi
+serpapiweb3

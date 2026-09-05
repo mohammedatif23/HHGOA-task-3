@@ -1,51 +1,58 @@
-# HH GOA TASK 3 - Face Identification & Evidence Integrity
+# HH GOA TASK 3 — Face Identification & Blockchain Evidence Verification
 
 ## Overview
 
-This project implements a face identification and evidence verification
-pipeline using reverse image search, face recognition, evidence hashing,
-and blockchain-based integrity verification.
+This project implements an end-to-end face identification and evidence verification pipeline.
 
-The system takes a reference face image, searches for visually similar
-online results, identifies potential social-media candidates, downloads
-candidate images when available, compares faces, and generates a
-verifiable evidence report.
+The system:
 
-The generated evidence is protected using SHA-256 hashing and a
-blockchain-based integrity mechanism.
+1. Detects and encodes a face from a reference image.
+2. Performs a genuine reverse-image search using Google Lens through SerpApi.
+3. Finds potential social-media matches.
+4. Downloads candidate images when available.
+5. Compares the reference face with faces found in candidate images.
+6. Ranks potential matches.
+7. Generates an evidence report.
+8. Calculates a SHA-256 hash of the evidence.
+9. Records the evidence hash on the Ethereum Sepolia testnet.
+10. Reads the blockchain transaction back from Ethereum.
+11. Verifies whether the current evidence still matches the original blockchain record.
+12. Detects tampering when the evidence is modified.
+
+No website or hosting is required.
 
 ---
 
 ## Problem Statement
 
-The objective of this task is to identify potential online occurrences
-of a person from a given reference image and provide a way to verify
-that the collected evidence has not been modified after recording.
+The objective is to identify potential online occurrences of a person from a given reference image and create a tamper-evident record of the collected evidence.
 
-The system therefore combines:
+The project combines:
 
-- Reverse image search
 - Face detection
 - Face encoding
+- Reverse-image search
+- Social-media candidate discovery
 - Face comparison
 - Candidate ranking
 - Evidence generation
 - SHA-256 hashing
-- Blockchain storage
+- Ethereum blockchain storage
+- Blockchain verification
 - Tamper detection
 
 ---
 
 ## System Architecture
 
-    text
+```text
                  Reference Image
                         |
                         v
-                Face Detection
+                 Face Detection
                         |
                         v
-                 Face Encoding
+                  Face Encoding
                         |
                         v
               Reverse Image Search
@@ -60,38 +67,236 @@ The system therefore combines:
                  Face Comparison
                         |
                         v
-                Candidate Scoring
+                Candidate Ranking
                         |
                         v
-                 Evidence JSON
+                  Evidence JSON
                         |
                         v
-                  SHA-256 Hash
+                   SHA-256
                         |
                         v
-                 Blockchain Record
+             Ethereum Sepolia
                         |
                         v
-              Integrity Verification
+              Blockchain Transaction
                         |
                         v
-                Tampering Detection
+             Blockchain Verification
+                        |
+                        v
+               Tampering Detection
 
+Installation
 1. Clone the repository
-    bash
-git clone <https://github.com/mohammedatif23/HHGOA-task-3>
-cd HH-GOA-TASK3
+       git clone https://github.com/mohammedatif23/HHGOA-task-3.git
+       cd HH-GOA-TASK3
+2. Create the virtual environment
 
-2. Create a virtual environment
-py -3.11 -m venv venv
+       Windows:
+       py -3.11 -m venv venv
 
-3. Activate the environment
-source venv/Scripts/activate
+3. Activate the virtual environment
+
+       Git Bash:
+
+       source venv/Scripts/activate
+
+       PowerShell:
+       .\venv\Scripts\Activate.ps1
 
 4. Install dependencies
-pip install -r requirements.txt
+       pip install -r requirements.txt
 
-5. Configure API key
+SERPAPI_KEY=YOUR_SERPAPI_API_KEY
 
-6. Run the project
+ALCHEMY_RPC_URL=https://eth-sepolia.g.alchemy.com/v2/YOUR_ALCHEMY_API_KEY
+
+BLOCKCHAIN_PRIVATE_KEY=YOUR_TESTNET_WALLET_PRIVATE_KEY
+
+Reverse Image Search
+
+The reverse-image search module uses SerpApi's Google Lens engine.
+
+The image is uploaded to SerpApi and Google Lens is used to retrieve visually similar results.
+
+The system does not use hardcoded social-media search results.
+
+Potential candidates are collected from supported social platforms such as:
+
+YouTube
+Instagram
+Facebook
+Reddit
+TikTok
+X/Twitter
+LinkedIn
+Pinterest
+
+Candidate images are downloaded when possible and compared against the reference face.
+
+Face Verification
+
+The project uses the face_recognition library.
+
+The reference image is:
+
+samples/test.JPG
+
+The system:
+
+Detects faces.
+Generates a face encoding.
+Detects faces in candidate images.
+Calculates face distance.
+Uses the best candidate face for comparison.
+Assigns a match level.
+
+Lower face distance indicates greater similarity.
+
+The result is treated as a potential match and should not be interpreted as definitive proof of identity.
+
+Evidence Generation
+
+The reverse-search module creates:
+
+verification/evidence.json
+
+The evidence contains information about the selected candidate, including relevant search and face-comparison information.
+
+The evidence file is hashed using SHA-256.
+
+Evidence JSON
+      |
+      v
+SHA-256
+      |
+      v
+64-character hexadecimal hash
+
+Ethereum Blockchain Record
+
+The evidence hash is recorded on the Ethereum Sepolia testnet.
+
+Network:
+
+Ethereum Sepolia
+
+Chain ID:
+
+11155111
+
+The project sends a zero-value transaction from the test wallet to itself.
+
+The SHA-256 evidence hash is stored in the transaction input data.
+
+The resulting transaction hash is saved locally in:
+
+blockchain/blockchain_record.json
+
+The local record contains:
+
+Network
+Chain ID
+Wallet address
+Evidence SHA-256
+Transaction hash
+Block number
+Sepolia explorer URL
+Timestamp
+
+The authoritative blockchain record is the Ethereum Sepolia transaction
+
+Blockchain Verification
+
+The verification module:
+
+verification/verify_evidence.py
+
+performs the following:
+
+Current evidence.json
+        |
+        v
+Calculate SHA-256
+        |
+        v
+Connect to Ethereum Sepolia
+        |
+        v
+Read recorded transaction
+        |
+        v
+Extract on-chain evidence hash
+        |
+        v
+Compare hashes
+
+If the hashes match:
+
+HASH MATCH
+EVIDENCE INTEGRITY VERIFIED
+
+If they do not match:
+
+HASH MISMATCH
+TAMPERING DETECTED
+
+Running the Complete Pipeline
+
+Make sure the virtual environment is active and .env is configured.
+
+Run:
+
 python main.py
+
+The pipeline performs:
+
+1. Reverse image search
+2. Candidate face verification
+3. Evidence generation
+4. Ethereum Sepolia blockchain recording
+5. Blockchain integrity verification
+
+A successful run should finish with:
+
+HASH MATCH
+EVIDENCE INTEGRITY VERIFIED
+
+PIPELINE COMPLETE
+Tamper Detection Test
+
+The system can detect changes made to the evidence after the blockchain record was created.
+
+Original evidence
+        |
+        v
+SHA-256 A
+        |
+        v
+Ethereum Sepolia
+
+If the evidence is modified:
+
+Modified evidence
+        |
+        v
+SHA-256 B
+        |
+        v
+Compare with SHA-256 A
+        |
+        v
+HASH MISMATCH
+TAMPERING DETECTED
+
+The original evidence can then be restored and verified again.
+
+Limitations
+Reverse-image search results depend on the search provider and available indexed content.
+Some social-media images cannot be downloaded because of access restrictions.
+Face recognition can produce false positives and false negatives.
+A face similarity score is not definitive proof of a person's identity.
+The system identifies potential matches rather than legally establishing identity.
+Ethereum Sepolia is a testnet and is not intended for production evidence storage.
+Blockchain storage records the evidence hash rather than storing the complete image on-chain.

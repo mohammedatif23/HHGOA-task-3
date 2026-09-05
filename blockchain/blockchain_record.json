@@ -1,0 +1,11 @@
+{
+    "network": "Ethereum Sepolia",
+    "chain_id": 11155111,
+    "wallet_address": "0x3b3BfFB7370485Cedaf03360Dc98D329b3e79131",
+    "evidence_file": "verification/evidence.json",
+    "evidence_sha256": "39400a0f9cb58a46528e3c00410b2520062910bd51a1c43ebf0e54c9ee83b3f1",
+    "transaction_hash": "dfce4f2516a0270e5d971511c5801449f8d996f2d6aeb4ae6cdc28af5a797cd2",
+    "block_number": 11640031,
+    "explorer_url": "https://sepolia.etherscan.io/tx/dfce4f2516a0270e5d971511c5801449f8d996f2d6aeb4ae6cdc28af5a797cd2",
+    "timestamp_utc": "2026-09-05T11:21:51.446359+00:00"
+}

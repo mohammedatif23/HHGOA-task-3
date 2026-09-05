@@ -6,20 +6,20 @@
         {
             "rank": 1,
             "platform": "Reddit",
-            "title": "What's the one thing you hope we get in Dexter Resurrection ...",
-            "url": "https://www.reddit.com/r/Dexter/comments/1jgeuur/whats_the_one_thing_you_hope_we_get_in_dexter/",
+            "title": "How Will Dexter: Resurrection Work With New Blood's Ending ...",
+            "url": "https://www.reddit.com/r/Dexter/comments/1edt0sa/how_will_dexter_resurrection_work_with_new_bloods/",
             "source": "Reddit",
-            "lens_position": 5,
+            "lens_position": 2,
             "lens_exact_match": false,
             "candidate_image": "verification/downloaded\\candidate_1.jpg",
             "verification": {
                 "status": "CHECKED",
                 "faces_detected": 1,
-                "distance": 0.15555756352344458,
+                "distance": 0.16847010247631436,
                 "match": true,
                 "confidence": "HIGH"
             },
-            "score": 0.6689
+            "score": 0.6663
         },
         {
             "rank": 2,
@@ -27,7 +27,7 @@
             "title": "Michael C. Hall Previews 'Dexter: New Blood' | TVLine ...",
             "url": "https://www.youtube.com/watch?v=L7gG8iu1U1Y",
             "source": "YouTube",
-            "lens_position": 8,
+            "lens_position": 9,
             "lens_exact_match": false,
             "candidate_image": "verification/downloaded\\candidate_2.jpg",
             "verification": {
@@ -41,13 +41,31 @@
         },
         {
             "rank": 3,
+            "platform": "Facebook",
+            "title": "Tommy Lightfoot - Uh, oh! It's every parents nightmare ...",
+            "url": "https://www.facebook.com/tommylightfoot.garrett.77/photos/uh-oh-its-every-parents-nightmare-their-teenager-starts-using-drugs-but-for-the-/283333337086840/",
+            "source": "Facebook",
+            "lens_position": 10,
+            "lens_exact_match": false,
+            "candidate_image": null,
+            "verification": {
+                "status": "IMAGE_DOWNLOAD_FAILED",
+                "faces_detected": 0,
+                "distance": null,
+                "match": false,
+                "confidence": "NO MATCH"
+            },
+            "score": 0.0
+        },
+        {
+            "rank": 4,
             "platform": "YouTube",
             "title": "Forget Dexter! Michael C. Hall's Best Role Is... - YouTube",
             "url": "https://www.youtube.com/watch?v=lTcz1Ild5z4",
             "source": "YouTube",
-            "lens_position": 14,
+            "lens_position": 12,
             "lens_exact_match": false,
-            "candidate_image": "verification/downloaded\\candidate_3.jpg",
+            "candidate_image": "verification/downloaded\\candidate_4.jpg",
             "verification": {
                 "status": "CHECKED",
                 "faces_detected": 1,
@@ -58,7 +76,7 @@
             "score": 0.6731
         },
         {
-            "rank": 4,
+            "rank": 5,
             "platform": "Facebook",
             "title": "The cast of DEXTER: RESURRECTION includes Michael C. Hall ...",
             "url": "https://www.facebook.com/consequence/posts/the-cast-of-dexter-resurrection-includes-michael-c-hall-peter-dinklage-eric-ston/1078479410986496/",
@@ -76,12 +94,12 @@
             "score": 0.0
         },
         {
-            "rank": 5,
+            "rank": 6,
             "platform": "Instagram",
-            "title": "\ud83d\udd2a Every twist, every turn, can challenge our sense of ...",
-            "url": "https://www.instagram.com/p/CDRlB43gbxf/",
+            "title": "Dexter\u2026",
+            "url": "https://www.instagram.com/reel/DcyZwoKM8yH/",
             "source": "Instagram",
-            "lens_position": 23,
+            "lens_position": 18,
             "lens_exact_match": false,
             "candidate_image": null,
             "verification": {
@@ -94,30 +112,12 @@
             "score": 0.0
         },
         {
-            "rank": 6,
-            "platform": "YouTube",
-            "title": "Dexter New Blood Season 3 Release Date | Trailer | Cast ...",
-            "url": "https://www.youtube.com/watch?v=plbSNf4KoJ4",
-            "source": "YouTube",
-            "lens_position": 24,
-            "lens_exact_match": false,
-            "candidate_image": "verification/downloaded\\candidate_6.jpg",
-            "verification": {
-                "status": "CHECKED",
-                "faces_detected": 1,
-                "distance": 0.1203466229307761,
-                "match": true,
-                "confidence": "HIGH"
-            },
-            "score": 0.6759
-        },
-        {
             "rank": 7,
             "platform": "Instagram",
-            "title": "Dexter\u2026",
-            "url": "https://www.instagram.com/reel/DcyZwoKM8yH/",
+            "title": "\ud83d\udd2a Every twist, every turn, can challenge our sense of ...",
+            "url": "https://www.instagram.com/p/CDRlB43gbxf/",
             "source": "Instagram",
-            "lens_position": 25,
+            "lens_position": 22,
             "lens_exact_match": false,
             "candidate_image": null,
             "verification": {
@@ -132,38 +132,38 @@
         {
             "rank": 8,
             "platform": "YouTube",
-            "title": "The LAZY Way Dexter: Resurrection \u201cFixed\u201d New Blood - YouTube",
-            "url": "https://www.youtube.com/watch?v=moOqhRU5z4c",
+            "title": "Dexter New Blood Season 3 Release Date | Trailer | Cast ...",
+            "url": "https://www.youtube.com/watch?v=plbSNf4KoJ4",
             "source": "YouTube",
-            "lens_position": 28,
+            "lens_position": 23,
             "lens_exact_match": false,
             "candidate_image": "verification/downloaded\\candidate_8.jpg",
             "verification": {
                 "status": "CHECKED",
                 "faces_detected": 1,
-                "distance": 0.37071887189642594,
+                "distance": 0.1203466229307761,
                 "match": true,
                 "confidence": "HIGH"
             },
-            "score": 0.6259
+            "score": 0.6759
         },
         {
             "rank": 9,
-            "platform": "Instagram",
-            "title": "\ud83c\udfa5 Dexter Dexter follows Dexter Morgan, a brilliant forensic ...",
-            "url": "https://www.instagram.com/reel/Dcw-yJPI7Hv/",
-            "source": "Instagram",
-            "lens_position": 32,
+            "platform": "Reddit",
+            "title": "who would win in an all out battle between Anton, walter ...",
+            "url": "https://www.reddit.com/r/powerscales/comments/1nl55b7/who_would_win_in_an_all_out_battle_between_anton/",
+            "source": "Reddit",
+            "lens_position": 26,
             "lens_exact_match": false,
-            "candidate_image": null,
+            "candidate_image": "verification/downloaded\\candidate_9.jpg",
             "verification": {
-                "status": "IMAGE_DOWNLOAD_FAILED",
-                "faces_detected": 0,
-                "distance": null,
-                "match": false,
-                "confidence": "NO MATCH"
+                "status": "CHECKED",
+                "faces_detected": 1,
+                "distance": 0.1424063470964517,
+                "match": true,
+                "confidence": "HIGH"
             },
-            "score": 0.0
+            "score": 0.6715
         },
         {
             "rank": 10,
@@ -171,7 +171,7 @@
             "title": "Michael C. Hall Teases Dexter's 'Appetite for DANGER' in ...",
             "url": "https://www.youtube.com/watch?v=HF0-AJbycMw",
             "source": "YouTube",
-            "lens_position": 34,
+            "lens_position": 31,
             "lens_exact_match": false,
             "candidate_image": "verification/downloaded\\candidate_10.jpg",
             "verification": {
@@ -183,5 +183,6 @@
             },
             "score": 0.6198
         }
-    ]
+    ],
+    "_tamper_test": true
 }

@@ -87,6 +87,32 @@ The project combines:
                         v
                Tampering Detection
 
+project structure:
+              HH-GOA-TASK3/
+              │
+              ├── blockchain/
+              │   ├── evidence_blockchain.py
+              │   ├── blockchain_record.json
+              │   └── hash_utils.py
+              │
+              ├── face/
+              │   └── test_face.py
+              │
+              ├── samples/
+              │   └── test.JPG
+              │
+              ├── search/
+              │   └── reverse_search.py
+              │
+              ├── verification/
+              │   ├── evidence.json
+              │   └── verify_evidence.py
+              │
+              ├── .gitignore
+              ├── main.py
+              ├── README.md
+              └── requirements.txt
+
 ## Installation
 
 1. Clone the repository
